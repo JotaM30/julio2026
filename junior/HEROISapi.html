@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Search Name</title>
+    <style>
+        body { font: 14px sans-serif; background: #121212; color: #fff; text-align: center; }
+        .card { background: #222; border-radius: 10px; padding: 15px; width: 250px; margin: 20px auto; border-bottom: 4px solid #ed1d24; display: inline-block; vertical-align: top; margin: 10px; }
+        img { width: 100%; border-radius: 5px; height: 300px; object-fit: cover; }
+        .bar { background: #444; height: 8px; border-radius: 4px; margin: 5px 0 10px; }
+        .prog { background: #ed1d24; height: 100%; border-radius: 4px; }
+        input, button { padding: 8px; border-radius: 4px; border: none; margin: 5px; }
+        button { background: #ed1d24; color: #fff; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h3>Busca por Nome</h3>
+    <input type="text" id="heroNome" placeholder="Ex: Batman, Hulk...">
+    <button onclick="buscar()">Buscar</button>
+
+    <div id="res"></div>
+
+    <script>
+        async function buscar() {
+            const nome = document.getElementById('heroNome').value;
+            const token = "496b8a0167a1d78bf0604e95f33b2779"; 
+            const res = document.getElementById('res');
+            res.innerHTML = "Buscando...";
+
+            try {
+                // Mudamos de /ID para /search/NOME
+                const resp = await fetch(`https://superheroapi.com/api.php/${token}/search/${nome}`);
+                const d = await resp.json();
+                
+                if (d.response === "error") throw new Error("Herói não encontrado!");
+
+                // Como pode vir mais de um, usamos o map para mostrar todos
+                res.innerHTML = d.results.map(heroi => `
+                    <div class="card">
+                        <img src="${heroi.image.url}">
+                        <h4>${heroi.name}</h4>
+                        <small>${heroi.biography['full-name']}</small>
+                        <p>Inteligência</p>
+                        <div class="bar"><div class="prog" style="width:${heroi.powerstats.intelligence}%"></div></div>
+                        <p>Força</p>
+                        <div class="bar"><div class="prog" style="width:${heroi.powerstats.strength}%"></div></div>
+                    </div>
+                `).join('');
+
+            } catch (e) {
+                res.innerHTML = "Erro: Herói não encontrado";
+            }
+        }
+    </script>
+</body>
+</html>
