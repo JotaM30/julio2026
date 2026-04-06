@@ -12,7 +12,7 @@ async function buscarPokemon() {
 
         const dados = await resposta.json();
 
-        // Agora exibindo apenas Nome, Imagem e Tipos
+        
         display.innerHTML = `
             <h2>${dados.name.toUpperCase()}</h2>
             <img src="${dados.sprites.front_default}" alt="${dados.name}" style="width: 150px;">
