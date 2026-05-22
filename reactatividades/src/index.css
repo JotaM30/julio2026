@@ -2,15 +2,16 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  background-color: black;
 }
 
 .card {
   display: grid;
   padding: 15px 10px;
-  border: 2px solid black;
   border-radius: 15px;
   justify-items: center;
   width: 300px;
+  background-color: darkred;
 
   img {
     margin-bottom: 20px;
